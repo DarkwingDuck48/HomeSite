@@ -1,2 +1,4 @@
 .vscode
 homesite.code-workspace
+homesite/budget/.env
+homesite/budget/database/__pycache__
