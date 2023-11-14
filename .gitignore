@@ -2,3 +2,7 @@
 homesite.code-workspace
 homesite/budget/.env
 homesite/budget/database/__pycache__
+*.db
+homesite/__pycache__/
+homesite/models/__pycache__/
+homesite/routers/__pycache__/

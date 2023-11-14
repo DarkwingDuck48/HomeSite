@@ -6,6 +6,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy import Date
 from sqlalchemy import String
 from sqlalchemy import Float
+
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
@@ -14,7 +15,6 @@ from sqlalchemy.orm import relationship
 
 class Base(DeclarativeBase):
     pass
-
 
 class Users(Base):
     __tablename__ = "users"
