@@ -6,10 +6,12 @@ from typing import Union
 
 from fastapi import FastAPI
 
-from routers.budget import router as budget_router
 
-from models.models import Base
-from models.database import ENGINE
+from src.budget.router import router as budget_router
+
+from src.database import ENGINE
+from src.budget.models import Base
+
 
 
 Base.metadata.create_all(bind=ENGINE)

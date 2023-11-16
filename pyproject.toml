@@ -16,9 +16,10 @@ pytest = "^7.4.3"
 sqlalchemy = "^2.0.22"
 psycopg2 = "^2.9.9"
 python-dotenv = "^1.0.0"
+pydantic-settings = "^2.0.3"
 
 [tool.ruff]
-line-length = 100
+line-length = 120
 src = ["src"]
 select = [
   "E", # pycodestyle

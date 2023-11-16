@@ -1,0 +1,26 @@
+body {
+    background-color: whitesmoke;
+}
+
+tr, td {
+   text-align: center;
+   border-color: black;
+   border: 1px solid;
+}
+.center-header {
+    display: flex;
+    justify-content: center;
+}
+
+.operation-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.operation-table-header {
+    font: bold;
+    color: black;
+    background-color: chocolate;
+    border: 1px solid;
+    border-color: black;
+}

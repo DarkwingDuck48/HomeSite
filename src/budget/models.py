@@ -47,7 +47,7 @@ class Categories(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[int] = mapped_column(String(120), nullable=False)
-    limit: Mapped[Decimal] = mapped_column(Float(3), nullable=True)
+    limit: Mapped[float] = mapped_column(Float(3), nullable=True)
 
     def __repr__(self) -> str:
         return f"Category({self.name=}, {self.limit})"
@@ -63,5 +63,5 @@ class Operations(Base):
         ForeignKey("categories.id"), nullable=False
     )
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
+    amount: Mapped[float] = mapped_column(Float(3), nullable=False)
     user: Mapped["Users"] = relationship(back_populates="user_operations")
-    amount: Mapped[Decimal] = mapped_column(Float(3), nullable=False)

@@ -5,3 +5,4 @@ homesite/budget/database/__pycache__
 *.db
 src/__pycache__/
 .env
+src/budget/__pycache__/

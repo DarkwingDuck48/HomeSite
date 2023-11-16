@@ -1,17 +1,9 @@
 
-import os
-
-
-
-from dotenv import load_dotenv
 from sqlalchemy import create_engine
+from src.config import Settings
 
 
-load_dotenv()
+settings = Settings()
 
-connection_url = os.getenv("DATABASE_URL_TEST")
-if connection_url:
-    ENGINE = create_engine(connection_url)
-    print(f"{connection_url=}")
-else:
-    raise Exception("No Connection string in settings")
+print(f"{settings.database_url_test=}")
+ENGINE = create_engine(settings.database_url_test)
