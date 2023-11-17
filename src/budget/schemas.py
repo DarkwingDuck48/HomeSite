@@ -5,6 +5,7 @@ from pydantic import BaseModel, Field, PositiveInt
 class User(BaseModel):
     user_id: PositiveInt
     name: str
+    role: str
     telegramID: str
 
 
@@ -15,4 +16,4 @@ class Operation(BaseModel):
     account_id: PositiveInt
     category_id: PositiveInt
     user_id: PositiveInt
-    amount: float = Field()
+    amount: float = Field(ge=0)

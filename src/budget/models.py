@@ -1,7 +1,7 @@
 from datetime import date
 from typing import Optional
 from typing import List
-from decimal import Decimal
+
 from sqlalchemy import ForeignKey
 from sqlalchemy import Date
 from sqlalchemy import String
