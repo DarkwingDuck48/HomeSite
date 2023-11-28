@@ -8,3 +8,5 @@ src/__pycache__/
 src/budget/__pycache__/
 alembic.ini
 migrations/
+src/auth/__pycache__/
+src/budget/methods/__pycache__/

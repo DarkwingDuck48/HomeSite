@@ -1,19 +1,15 @@
-from datetime import date
-from typing import Optional
-from typing import List
+from datetime import datetime
 
-from sqlalchemy import String
-
-from sqlalchemy.orm import DeclarativeBase
+from fastapi_users.db import SQLAlchemyBaseUserTable, SQLAlchemyUserDatabase
+from sqlalchemy import String, Boolean, TIMESTAMP
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 
+from src.models import Base
 
-class Base(DeclarativeBase):
-    pass
-
-class Users(Base):
-    __tablename__ = "users"
-
+class User(SQLAlchemyBaseUserTable[int], Base):
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(30), nullable=False)
+    username: Mapped[str] = mapped_column(String(length=30), unique=True, nullable=False)
+    register_at: Mapped[datetime] = mapped_column(TIMESTAMP, default=datetime.utcnow)
+
+    
