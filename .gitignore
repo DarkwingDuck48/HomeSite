@@ -10,3 +10,4 @@ alembic.ini
 migrations/
 src/auth/__pycache__/
 src/budget/methods/__pycache__/
+src/pages/__pycache__/

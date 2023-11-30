@@ -57,3 +57,27 @@ class OperationPartialUpdateSchema(OperationBase):
     amount: float | None = None
 
 
+class CategoryBase(BaseModel):
+    """Base Category Model"""
+    name: str
+    category_limit: float
+
+class CategorySchema(CategoryBase):
+    """Returning Category schema"""
+    model_config = ConfigDict(from_attributes=True)
+    id: int
+
+class CategoryCreateSchema(CategoryBase):
+    """Creating Category schema"""
+    pass
+
+class CategoryUpdateSchema(CategoryBase):
+    """Update Category"""
+    pass
+
+class CategoryPartialUpdateSchema(CategoryBase):
+    """Partial Update Category schema"""
+    name: str | None = None
+    category_limit: float | None = None
+
+

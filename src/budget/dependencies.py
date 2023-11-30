@@ -4,7 +4,7 @@ from fastapi import Depends, Path, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.database import database
-from src.budget.models import Account, Operation
+from src.budget.models import Account, Category, Operation
 
 from src.budget import crud
 
@@ -31,5 +31,17 @@ async def operation_by_id(
         return operation
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
-        detail=f"Account with {operation_id} is not found"
+        detail=f"Operation with {operation_id} is not found"
+    )
+
+async def category_by_id(
+        category_id = Annotated[int, Path],
+        session: AsyncSession = Depends(database.scoped_session_dependecy)
+) -> Category:
+    category = await crud.get_category(session=session, category_id=category_id)
+    if category:
+        return category
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail=f"Account with {category_id} is not found"
     )

@@ -3,6 +3,7 @@
 """
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 
 from src.database import database
 
@@ -12,6 +13,7 @@ from src.budget.models import Account, Operation, Category
 
 from src.auth.router import router as auth_router
 from src.budget.router import router as budget_router
+from src.pages.router import router as pages_router
 
 
 @asynccontextmanager
@@ -22,9 +24,8 @@ async def lifespan(app: FastAPI):
     yield
     # after application close
 
-
-
 app = FastAPI(lifespan=lifespan)
+app.mount("/static", StaticFiles(directory="src/static"), name="static")
 
 app.include_router(
     router=auth_router,
@@ -34,4 +35,8 @@ app.include_router(
 app.include_router(
     router= budget_router,
     prefix='/budget'
+)
+
+app.include_router(
+    router=pages_router
 )

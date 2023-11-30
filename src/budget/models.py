@@ -25,7 +25,7 @@ class Account(Base):
 class Category(Base):
     __tablename__ = "categories"
 
-    name: Mapped[int] = mapped_column(String(120), nullable=False)
+    name: Mapped[str] = mapped_column(String(120), nullable=False)
     category_limit: Mapped[float] = mapped_column(Float(3), nullable=True)
 
     def __repr__(self) -> str:
