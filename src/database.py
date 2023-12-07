@@ -11,24 +11,24 @@ class DatabaseHelper:
         self.engine = create_async_engine(url=url, echo=echo)
         self.session_factory = async_sessionmaker(
             bind=self.engine,
-            autoflush=False, 
-            autocommit=False, 
+            autoflush=False,
+            autocommit=False,
             expire_on_commit=False
         )
-    
+
     def get_scoped_session(self):
         session = async_scoped_session(
-            session_factory= self.session_factory, 
+            session_factory= self.session_factory,
             scopefunc=current_task,
         )
         return session
-    
+
     async def session_dependency(self) -> AsyncGenerator[AsyncSession, Any]:
         """ Каждый раз создает новую сессию для работы """
         async with self.session_factory() as session:
             yield session
             await session.close()
-    
+
     async def scoped_session_dependecy(self) -> AsyncGenerator[async_scoped_session[AsyncSession], Any]:
         """Создаем или получаем текущую сессию"""
         session = self.get_scoped_session()

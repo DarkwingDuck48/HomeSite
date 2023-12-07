@@ -1,0 +1,38 @@
+{%extends 'base.html'%}
+
+{% block head%}
+
+{% endblock %}
+
+{% block content%}
+    <div class="row g-5">
+        <div class="col-md">
+            <div class="form-floating">
+                <input type="date" class="form-control" id="floatingInputGrid" placeholder="01.01.2023" value="01.01.2023">
+                <label for="floatingInputGrid">Дата</label>
+            </div>
+        </div>
+        <div class="col-md">
+        <div class="form-floating">
+            <select class="form-select" id="floatingSelectGrid" aria-label="Floating label select example">
+            <option selected>Выберите счет</option>
+            {% for account in accounts %}
+                <option value="1"">{{ account.name }}</option>
+            {% endfor %}
+            </select>
+            <label for="floatingSelectGrid">Счета</label>
+        </div>
+        </div>
+    </div>
+    <div>
+        {% for account in accounts %}
+        <div>
+            <div>
+                <span>{{ account.id }} </span>
+                <span>{{ account.bank }} </span>
+                <span>{{ account.name }} </span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock%}

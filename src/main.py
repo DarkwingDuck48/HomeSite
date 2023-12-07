@@ -4,6 +4,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import RedirectResponse
 
 from src.database import database
 
@@ -26,6 +27,11 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 app.mount("/static", StaticFiles(directory="src/static"), name="static")
+
+
+@app.get("/", response_class=RedirectResponse, status_code=302)
+def redirect_to_pages():
+    return "/pages/accounts"
 
 app.include_router(
     router=auth_router,
