@@ -1,0 +1,24 @@
+{% extends 'budget/index.html' %}
+{% block title %}
+    <title> Budget - Detail Account </title>
+{% endblock title %}
+
+{% block content %}
+    <h1> {{account.name}} </h1>
+    <table>
+        <tr>
+            <th> Дата Операции </th>
+            <th> Категория </th>
+            <th> Amount </th>
+            <th> Comment </th>
+        </tr>
+    {% for operation in operations %}
+        <tr>
+            <th>{{ operation.operation_date}} </th>
+            <th>{{ operation.category}} </th>
+            <th>{{ operation.amount}} </th>
+            <th>{{ operation.comment}} </th>
+        </tr> 
+    {% endfor %}
+    </table>
+{% endblock content %}
