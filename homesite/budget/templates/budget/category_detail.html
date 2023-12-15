@@ -1,10 +1,10 @@
-{% extends 'budget/index.html' %}
+{% extends 'base/index.html' %}
 {% block title %}
-    <title> Budget - Detail Account </title>
+    <title> Budget - Detail category </title>
 {% endblock title %}
 
 {% block content %}
-    <h1> {{account.name}} </h1>
+    <h1> {{category.name}} </h1>
     <table>
         <tr>
             <th> Дата Операции </th>
@@ -14,7 +14,7 @@
         </tr>
     {% for operation in operations %}
         <tr>
-            <th>{{ operation.operation_date}} </th>
+            <th>{{ operation.operation_date|date:'d.M.Y'}} </th>
             <th>{{ operation.category}} </th>
             <th>{{ operation.amount}} </th>
             <th>{{ operation.comment}} </th>

@@ -2,3 +2,7 @@
 homesite/budget/__pycache__/
 homesite/budget/migrations/__pycache__/
 homesite/homesite/__pycache__/settings.cpython-311.pyc
+homesite/base/__pycache__/
+homesite/base/migrations/__pycache__/
+homesite/users/__pycache__/
+homesite/users/migrations/__pycache__/

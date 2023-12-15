@@ -1,16 +1,18 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
+from .models import Category, Operation
 
-from .models import Account, Operation
 
 # Create your views here.
-def accounts(request):
-    accounts = Account.objects.all()
-    context = {
-        "accounts": accounts
-    }
-    return render(request, "budget/accounts.html", context)
 
-def detail_account(request, account_id):
-    account = get_object_or_404(Account, pk=account_id)
-    operations = Operation.objects.all().filter(account = account_id)
-    return render(request, "budget/account_detail.html", {"account_id": account_id, "operations": operations})
+def home(request):
+    categories = Category.objects.all()
+    context = {"categories": categories}
+    return render(request, "budget/categories.html", context)
+
+
+def detail_category(request, category_id):
+    category = get_object_or_404(Category, pk=category_id)
+    operations = Operation.objects.all().filter(category=category_id)
+    return render(
+        request, "budget/category_detail.html", {"category": category, "operations": operations}
+    )

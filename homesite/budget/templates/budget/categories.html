@@ -1,0 +1,14 @@
+{% extends "base/index.html" %}
+
+{% block title %}
+    <title> Budget - Categories</title>
+{% endblock title %}
+
+{% block content %}
+    <ul>
+    {% for category in categories %}
+        <li> <a href= "{% url 'budget:detail_category' category.id %}"> {{category.id}} - {{category.name}} : {{ category.limit }}</a> </li>
+    {% endfor %}
+
+{% endblock content %}
+

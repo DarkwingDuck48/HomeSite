@@ -5,10 +5,29 @@ description = "Homesite for developers"
 authors = ["Maxim Britvin <maksbritvin@gmail.com>"]
 readme = "README.md"
 
+[tool.black]
+max-line-length = 100
+
+
 [tool.poetry.dependencies]
 python = "^3.11"
 django = "^5.0"
 
+[tool.pylint]
+max-line-length= 100
+suggestion-mode = 'yes'
+
+
+[tool.pylint."MESSAGES CONTROL"]
+disable='''
+    missing-module-docstring,
+    missing-class-docstring,
+    missing-function-docstring,
+'''
+
+[tool.pylint.REFACTORING]
+# Maximum number of nested blocks for function / method body
+max-nested-blocks = 5
 
 [build-system]
 requires = ["poetry-core"]

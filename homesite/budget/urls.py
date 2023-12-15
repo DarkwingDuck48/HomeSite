@@ -3,7 +3,8 @@ from . import views
 
 
 app_name = "budget"
+
 urlpatterns = [
-    path("accounts", views.accounts, name="accounts"),
-    path("details/<int:account_id>", views.detail_account, name="detail_account"),
+    path("", views.home, name="home"),
+    path("details/<int:category_id>", views.detail_category, name="detail_category"),
 ]
