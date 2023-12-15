@@ -1,7 +1,10 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-# Create your views here.
+
+from .forms import SignUpForm
+
+
 
 def login_user(request):
     if request.method == "POST":
@@ -22,4 +25,18 @@ def logout_user(request):
     return redirect('users:login_user')
 
 def register_user(request):
-    return render(request, "users/register.html", {})
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # Auth and login
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            messages.success(request, "Register is good! Welcome!")
+            return redirect('budget:home')
+    else:
+        form = SignUpForm()
+        return render(request, "users/register.html", {'form': form})
+    return render(request, "users/register.html", {'form': form})
