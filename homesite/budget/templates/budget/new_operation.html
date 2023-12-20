@@ -1,0 +1,51 @@
+{% extends 'base/index.html' %}
+{% block title %}
+    <title> Budget - Add Operation </title>
+{% endblock title %}
+
+{% block content %}
+    <h1> Add Operation </h1>
+    <div class="col-md-6 offset-md-3">
+        <form method="post" action="">
+            {% csrf_token %}
+            {% if form.errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  Your Form Has Errors
+                  {% for field in form %}
+                      {% if field.errors %}
+                          {{ field.errors }}
+                      {% endif %}
+                  {% endfor %}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endif %}
+            {{ form.as_p }}
+            </br>
+            <button type="submit" class="btn btn-primary">Add Operation</button>
+        </form>
+    </div>
+
+
+    <h1> All Operations </h1>
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Operation Date</th>
+            <th scope="col">Category</th>
+            <th scope="col">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for operation in operations %}
+          <tr>
+            <th scope="row">{{operation.operation_date}}</th>
+            <td>{{operation}}</td>
+            <td>{{operation.amount}}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+
+{% endblock content %}
