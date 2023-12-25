@@ -4,47 +4,78 @@
 {% endblock title %}
 
 {% block content %}
-    <h1> Add Operation </h1>
-    <div class="col-md-6 offset-md-3">
-        <form method="post" action="">
-            {% csrf_token %}
-            {% if form.errors %}
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                  Your Form Has Errors
-                  {% for field in form %}
-                      {% if field.errors %}
-                          {{ field.errors }}
-                      {% endif %}
-                  {% endfor %}
-                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {% endif %}
-            {{ form.as_p }}
-            </br>
-            <button type="submit" class="btn btn-primary">Add Operation</button>
-        </form>
+</br>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addOperationModal">
+      Add new operation
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addOperationModal" tabindex="-1" aria-labelledby="addOperationModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addOperationModalLabel">Добавление операции</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+            <div class="modal-body">
+              <div class="col-md-6 offset-md-3">
+                <form method="post" action="">
+                    {% csrf_token %}
+                    {% if form.errors %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                          Your Form Has Errors
+                          {% for field in form %}
+                              {% if field.errors %}
+                                  {{ field.errors }}
+                              {% endif %}
+                          {% endfor %}
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
+                    {{ form.as_p }}
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+              </div>
+          </div>
+
+        </div>
+      </div>
     </div>
 
+    </br>
 
     <h1> All Operations </h1>
 
-    <table class="table">
+    <table class="table table-bordered table-hover table-sm">
         <thead>
           <tr>
-            <th scope="col">Operation Date</th>
-            <th scope="col">Category</th>
-            <th scope="col">Amount</th>
+            <th scope="col">Период</th>
+            <th scope="col">Категория</th>
+            <th scope="col">Сумма</th>
+            <th class="border-0" scope="col">Комментарий</th>
           </tr>
         </thead>
         <tbody>
         {% for operation in operations %}
           <tr>
-            <th scope="row">{{operation.operation_date}}</th>
-            <td>{{operation}}</td>
+            <th scope="row">{{operation.operation_date|date:'F Y'}}</th>
+            <td>{{operation.category}}</td>
             <td>{{operation.amount}}</td>
+            <td class="border-0">{{operation.comment}}</td>
+            <td class="border-0"><a href={% url "budget:delete_operation" operation.id %}><i class="bi bi-trash"></i></a>
           </tr>
         {% endfor %}
         </tbody>
+        <tfoot>
+          <th class="text-end"> Итого: </th>
+          <td class="border-0">  </td>
+          <td class="border-0"> {{all_sum}} </td>
+          <td class="border-0"> </td>
+        </tfoot>
       </table>
 
 

@@ -9,9 +9,6 @@ class Category(models.Model):
 
     def __str__(self) -> str:
         return f"{self.name}"
-    @classmethod
-    def get_all_categories(cls):
-        return {i.name:i for i in cls.objects.all()}
 
 
 class DetalisationDimension(models.Model):

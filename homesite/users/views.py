@@ -14,7 +14,7 @@ def login_user(request):
         if user:
             login(request, user)
             messages.success(request, "Login correct")
-            return redirect('budget:home')
+            return redirect('base:index')
         messages.error(request, "Error in Login! Please try again...")
         return redirect('users:login_user')
     return render(request, "users/login.html", {})
@@ -35,7 +35,7 @@ def register_user(request):
             user = authenticate(username=username, password=password)
             login(request, user)
             messages.success(request, "Register is good! Welcome!")
-            return redirect('budget:home')
+            return redirect('base:index')
     else:
         form = SignUpForm()
         return render(request, "users/register.html", {'form': form})
