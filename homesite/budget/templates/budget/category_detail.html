@@ -3,21 +3,23 @@
     <title> Budget - Detail category </title>
 {% endblock title %}
 
+{% block navbar %}
+    {% include "budget/navbar.html" %}
+{% endblock navbar%}
+
 {% block content %}
     <h1> {{category.name}} </h1>
-    <table>
+    <table class="table table-bordered table-hover table-sm">
         <tr>
             <th> Дата Операции </th>
-            <th> Категория </th>
             <th> Amount </th>
             <th> Comment </th>
         </tr>
     {% for operation in operations %}
         <tr>
-            <th>{{ operation.operation_date|date:'d.M.Y'}} </th>
-            <th>{{ operation.category}} </th>
-            <th>{{ operation.amount}} </th>
-            <th>{{ operation.comment}} </th>
+            <td>{{ operation.operation_date|date:'F Y'}} </td>
+            <td>{{ operation.amount}} </td>
+            <td>{{ operation.comment}} </td>
         </tr> 
     {% endfor %}
     </table>

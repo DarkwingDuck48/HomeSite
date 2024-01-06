@@ -4,11 +4,58 @@
     <title> Budget - Categories</title>
 {% endblock title %}
 
+{% block navbar %}
+    {% include "budget/navbar.html" %}
+{% endblock navbar%}
+
 {% block content %}
-    <ul>
-    {% for category in categories %}
-        <li> <a href= "{% url 'budget:detail_category' category.id %}"> {{category.id}} - {{category.name}} : {{ category.limit }}</a> </li>
-    {% endfor %}
+    <h1> Список категорий </h1>
+    </br>
+    <table class="table table-bordered table-hover table-sm">
+        <thead>
+            <tr>
+                <th scope="col"> Имя категории </th>
+                <th scope="col"> Лимит за период </th>
+                <th scope="col"> Тип категории </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for category in categories %}
+                <tr>
+                    <td scope="row"><a href= "{% url 'budget:detail_category' category.id %}"> {{category.name}}</td>
+                    <td>{{ category.limit }}</td>
+                    <td>{{ category.cat_type }}</td>
+                    <td class="border-0"><a href={% url "budget:delete_category" category.id %}><i class="bi bi-trash"></i></a>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    </br>
+
+    <form method="post" action="">
+        {% csrf_token %}
+        {% if form.errors %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            Ошибки на форме
+            {% for field in form %}
+                {% if field.errors %}
+                    {{ field.errors }}
+                {% endif %}
+            {% endfor %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
+        <div class="row">
+            {% for field in form %}
+                <div class="col-3"> 
+                    {{ field }}
+                </div>
+            {% endfor %}
+        </div>
+        </br>
+        <button type="submit" class="btn btn btn-outline-success btn-sm">Добавить категорию</button>
+    </form>
 
 {% endblock content %}
 

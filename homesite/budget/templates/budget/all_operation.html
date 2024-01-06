@@ -3,6 +3,11 @@
     <title> Budget - Add Operation </title>
 {% endblock title %}
 
+{% block navbar %}
+    {% include "budget/navbar.html" %}
+{% endblock navbar%}
+
+
 {% block content %}
 </br>
     <!-- Button trigger modal -->
@@ -62,9 +67,9 @@
         <tbody>
         {% for operation in operations %}
           <tr>
-            <th scope="row">{{operation.operation_date|date:'F Y'}}</th>
+            <td scope="row">{{operation.operation_date|date:'F Y'}}</td>
             <td>{{operation.category}}</td>
-            <td>{{operation.amount}}</td>
+            <td>{{operation.amount|floatformat:"2g"}} &#8381;</td>
             <td class="border-0">{{operation.comment}}</td>
             <td class="border-0"><a href={% url "budget:delete_operation" operation.id %}><i class="bi bi-trash"></i></a>
           </tr>
@@ -73,7 +78,7 @@
         <tfoot>
           <th class="text-end"> Итого: </th>
           <td class="border-0">  </td>
-          <td class="border-0"> {{all_sum}} </td>
+          <td class="border-0"> {{all_sum|floatformat:"2g"}} &#8381; </td>
           <td class="border-0"> </td>
         </tfoot>
       </table>

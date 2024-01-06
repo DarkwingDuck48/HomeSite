@@ -9,6 +9,31 @@
 {% endblock navbar%}
 
 {% block content %}
-    <h1> Hellow </h1>
+    <div class="row">  
+        <div class="col-9"><h1> Dashboard</h1></div> 
+        <div class="col-3"> {{today}} </div>
+    </div>
+    <div class="row">
+        <div class="col-7">
+            <table class="table table-bordered table-hover table-sm">
+                <tr>
+                    <th> Категория </th>
+                    <th> Лимит на период</th>
+                    <th> Остаток </th>
+                    <th> Потрачено </th>
+                </tr>
+            {% for operation in operations_sum %}
+            <tr>
+                <td>{{ operation.category__name}} </td>
+                <td>{{ operation.category__limit|floatformat:"2g"}} &#8381;</td>
+                <td>{{ operation.rest_by_category|floatformat:"2g"}} &#8381;</td>
+                <td>{{ operation.spend_by_category|floatformat:"2g"}} &#8381;</td>
+            </tr> 
+            {% endfor %}
+            </table>
+        </div>
+        <div class="col">
+
+        </div>
 {% endblock content %}
 

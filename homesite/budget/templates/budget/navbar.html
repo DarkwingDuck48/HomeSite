@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'budget:home' %}">HomeSite</a>
+      <a class="navbar-brand" href="{% url 'base:index' %}">HomeSite</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -13,8 +13,9 @@
                   Budget
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="{% url 'budget:home'%}">Test1</a></li>
-                  <li><a class="dropdown-item" href="{% url 'budget:home'%}">Test2</a></li>
+                  <li><a class="dropdown-item" href="{% url 'budget:home'%}">Дашборд</a></li>
+                  <li><a class="dropdown-item" href="{% url 'budget:categories'%}">Категории</a></li>
+                  <li><a class="dropdown-item" href="{% url 'budget:all_operation'%}">Операции</a></li>
                 </ul>
               </li>
             </li>
