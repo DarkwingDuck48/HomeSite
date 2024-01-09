@@ -12,13 +12,21 @@ max-line-length = 100
 [tool.poetry.dependencies]
 python = "^3.11"
 django = "^5.0"
-ipython = "^8.19.0"
 
-[tool.pylint]
+
+[tool.poetry.group.dev.dependencies]
+ipython = "^8.19.0"
+pylint = "^3.0.3"
+pylint-django = "^2.5.5"
+
+
+[tool.pylint.MAIN]
 max-line-length= 100
 suggestion-mode = 'yes'
-
-
+load-plugins = [
+    'pylint_django',
+    ]
+django-settings-module='homesite.homesite.settings'
 
 [tool.pylint."MESSAGES CONTROL"]
 disable='''
