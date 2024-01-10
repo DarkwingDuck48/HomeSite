@@ -33,7 +33,7 @@ class CategoryForm(forms.ModelForm):
         max_length=20,
         required=True
     )
-    limit = forms.DecimalField(decimal_places=2, max_digits=8, required=True)
+    limit = forms.DecimalField(decimal_places=2, max_digits=8, required=False)
     cat_type = forms.ChoiceField(label="Тип категории", choices=Category.CAT_TYPE_CHOICES)
 
     class Meta:

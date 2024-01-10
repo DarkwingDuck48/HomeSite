@@ -11,29 +11,62 @@
 {% block content %}
     <div class="row">  
         <div class="col-9"><h1> Dashboard</h1></div> 
-        <div class="col-3"> {{today}} </div>
     </div>
     <div class="row">
+        <h4> Потрачено: <font class="text-danger">{{spend_all_category.spend_by_category__sum| floatformat:"2g"}} &#8381;</font></h4>
+        <h4> Заработано: <font class="text-success">{{get_all_category.get_by_category__sum| floatformat:"2g"}} &#8381;</font></h4>
+    </div>
+    </br>
+    <div class="row">
         <div class="col-7">
-            <table class="table table-bordered table-hover table-sm">
+            <div class="row">
+                <div class="col-11"> 
+                    <h4> Траты</h4>
+                </div>
+                <div class="col-1"><button type="button" class="btn btn-primary"> <i class="bi bi-plus-circle"></i></button></div>
+            </div>
+            <div class="row">
+                <table class="table table-bordered table-hover table-sm">
+                    <tr>
+                        <th> Категория </th>
+                        <th> Лимит на период</th>
+                        <th> Остаток </th>
+                        <th> Потрачено </th>
+                    </tr>
+                {% for operation in operations_credit %}
                 <tr>
-                    <th> Категория </th>
-                    <th> Лимит на период</th>
-                    <th> Остаток </th>
-                    <th> Потрачено </th>
-                </tr>
-            {% for operation in operations_sum %}
-            <tr>
-                <td>{{ operation.category__name}} </td>
-                <td>{{ operation.category__limit|floatformat:"2g"}} &#8381;</td>
-                <td>{{ operation.rest_by_category|floatformat:"2g"}} &#8381;</td>
-                <td>{{ operation.spend_by_category|floatformat:"2g"}} &#8381;</td>
-            </tr> 
-            {% endfor %}
-            </table>
+                    <td> <a href= "{% url 'budget:detail_category_by_period' operation.category__id period_today.year period_today.month %}">{{ operation.category__name}} </td>
+                    <td>{{ operation.category__limit|floatformat:"2g"}} &#8381;</td>
+                    <td>{{ operation.rest_by_category|floatformat:"2g"}} &#8381;</td>
+                    <td>{{ operation.spend_by_category|floatformat:"2g"}} &#8381;</td>
+                </tr> 
+                {% endfor %}
+                </table>
+            </div>
         </div>
-        <div class="col">
+        <div class="col-5">
+            <div class="row">
+                <div class="col-11"> 
+                    <h4> Поступления</h4>
+                </div>
+                <div class="col-1"><button type="button" class="btn btn-primary"> <i class="bi bi-plus-circle"></i></button></div>
+            </div>
+            <div class="row">
+                <table class="table table-bordered table-hover table-sm table-responsive">
+                    <tr>
+                        <th> Категория </th>
+                        <th> Получено за период</th>
 
+                    </tr>
+                {% for operation in operations_debit %}
+                <tr>
+                    <td> <a href= "{% url 'budget:detail_category_by_period' operation.category__id period_today.year period_today.month %}">{{ operation.category__name}} </td>
+                    <td>{{ operation.get_by_category|floatformat:"2g"}} &#8381;</td>
+                </tr> 
+                {% endfor %}
+                </table>
+            </div>
         </div>
+
 {% endblock content %}
 

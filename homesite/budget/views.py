@@ -1,44 +1,40 @@
 from datetime import datetime
-
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from django.db.models import Sum, F, Value, CharField
-from django.db.models.functions import Concat, ExtractYear, ExtractMonth
 
-from .models import Category, Operation
+
+import budget.queries as queries
+
+from .models import Category, Operation, Period
 from .forms import CategoryForm, OperationForm
 
 
-def get_operation_periods() -> list[str]:
-    periods = (
-        Operation.objects
-        .annotate(
-            period_name=Concat(
-                ExtractYear("operation_date"),
-                Value("-"),
-                ExtractMonth("operation_date"),
-                output_field=CharField(),
-            )
-        )
-        .values("period_name")
-        .distinct()
-    )
-    return [period["period_name"] for period in periods]
 
 def home(request):
     """Построение начального Dashboard по текущему состоянию бюджета."""
-    periods = get_operation_periods()
-    context = {"periods": periods}
-    today = datetime.now()
-    operations_sum = (
-        Operation.objects.all()
-        .filter(operation_date__year=today.year, operation_date__month=today.month)
-        .values("category", "category__name", "category__limit")
-        .annotate(rest_by_category=F("category__limit") - Sum("amount"), spend_by_category=Sum("amount"))
-    )
-    context.update({"operations_sum": operations_sum, "today":today})
+    period_today = queries.get_period()
+    operations_credit, operations_debit = queries.get_operations_by_period_and_category_sum(period_today)
+    sum_by_credit = operations_credit.aggregate(Sum("spend_by_category"))
+    sum_by_debit = operations_debit.aggregate(Sum("get_by_category"))
+    context = {
+        "operations_credit": operations_credit,
+        "operations_debit": operations_debit,
+        "spend_all_category": sum_by_credit,
+        "get_all_category": sum_by_debit,
+        "today": datetime.now(),
+        "period_today": period_today,
+    }
     return render(request, "budget/dashboard.html", context)
 
+
+def all_periods(request):
+    context = {}
+    return render(request, "budget/periods_settings.html", context)
+
+
+def specify_period(request, period_id):
+    return render(request, "budget/dashboard.html", context)
 
 def all_categories(request):
     if request.method == "POST":
@@ -61,6 +57,16 @@ def delete_category(request, category_id):
     category_to_delete.delete()
     return redirect("budget:categories")
 
+def detail_category_by_period(request, category_id, year, month):
+    category = get_object_or_404(Category, pk=category_id)
+    period = queries.get_period_by_year_month(year, month)
+    operations = queries.get_operations_by_period(period).filter(category=category_id).order_by("operation_date")
+    return render(
+        request,
+        "budget/category_detail.html",
+        {"category": category, "operations": operations, "period": period},
+    )
+
 
 def detail_category(request, category_id):
     category = get_object_or_404(Category, pk=category_id)
@@ -70,31 +76,37 @@ def detail_category(request, category_id):
     return render(
         request,
         "budget/category_detail.html",
-        {"category": category, "operations": operations},
+        {"category": category, "operations": operations, "period": "Все периоды"},
     )
 
 
 def delete_operation(request, operation_id):
     operation_to_delete = get_object_or_404(Operation, pk=operation_id)
     operation_to_delete.delete()
-    return redirect("budget:all_operation")
+    return redirect(request.META.get("HTTP_REFERER"))
 
 
-def all_operation(request):
-    operations = Operation.objects.all().order_by("operation_date", "category")
-    sum_all_operations = Operation.objects.aggregate(all_sum=Sum("amount"))
+def all_operation_by_period(request, year, month):
+    period = queries.get_period_by_year_month(year, month)
+    operations = queries.get_operations_by_period(period).order_by("operation_date", "category")
+    sum_all_operations = queries.get_operations_by_period(period).aggregate(all_sum=Sum("amount"))
     if request.method == "POST":
         form = OperationForm(request.POST)
         if form.is_valid():
-            form.save()
+            operation: Operation = form.save(commit=False)
+            operation.operation_period = Period.objects.filter(
+                start_date__lte=operation.operation_date,
+                end_date__gte=operation.operation_date,
+            ).first()
+            operation.save()
             messages.success(request, "Added new Operation")
             sum_all_operations = Operation.objects.aggregate(all_sum=Sum("amount"))
-            return redirect("budget:all_operation")
+            return redirect("budget:operations")
     else:
         form = OperationForm()
         return render(
             request,
-            "budget/all_operation.html",
+            "budget/operations.html",
             {
                 "form": form,
                 "operations": operations,
@@ -103,10 +115,14 @@ def all_operation(request):
         )
     return render(
         request,
-        "budget/all_operation.html",
+        "budget/operations.html",
         {
             "form": form,
             "operations": operations,
             "all_sum": sum_all_operations["all_sum"],
         },
     )
+
+def all_operation(request):
+    today = datetime.now()
+    return all_operation_by_period(request, today.year, today.month)

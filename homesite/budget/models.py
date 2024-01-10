@@ -2,6 +2,18 @@ from django.db import models
 
 
 
+class Period(models.Model):
+    """Periods Class"""
+    name = models.CharField(max_length=20, unique=True)
+    start_date = models.DateField(auto_now=False, auto_now_add=False)
+    end_date = models.DateField(auto_now=False, auto_now_add=False)
+    year = models.IntegerField()
+    month = models.IntegerField()
+    short_name = models.CharField(max_length=20)
+
+    def __str__(self) -> str:
+        return f"{self.name}"
+
 
 class Category(models.Model):
     """Category Class"""
@@ -15,7 +27,7 @@ class Category(models.Model):
     }
 
     name = models.CharField(max_length=20, unique=True)
-    limit = models.DecimalField(decimal_places=2, max_digits=8)
+    limit = models.DecimalField(decimal_places=2, max_digits=8, null=True)
     cat_type = models.CharField(max_length=2, choices=CAT_TYPE_CHOICES, default=CREDIT)
 
     def __str__(self) -> str:
@@ -37,10 +49,11 @@ class Operation(models.Model):
     """Operation class"""
 
     operation_date = models.DateField(auto_now=False, auto_now_add=False)
-    category = models.ForeignKey(Category, on_delete=models.PROTECT)
-    detalisation = models.JSONField(null=True)
+    operation_period = models.ForeignKey(Period, on_delete=models.PROTECT, null=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    detalisation = models.JSONField(null=True, blank=True)
     amount = models.DecimalField(decimal_places=2, max_digits=8)
-    comment = models.CharField(max_length=250, null=True)
+    comment = models.CharField(max_length=250, null=True, blank=True)
 
     def __str__(self) -> str:
         return f"{self.operation_date}: {self.comment}"

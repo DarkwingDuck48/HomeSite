@@ -1,4 +1,5 @@
 {% extends 'base/index.html' %}
+
 {% block title %}
     <title> Budget - Add Operation </title>
 {% endblock title %}
@@ -58,7 +59,8 @@
     <table class="table table-bordered table-hover table-sm">
         <thead>
           <tr>
-            <th scope="col">Период</th>
+            <th scope="col">Дата операции</th>
+            <th scope="col">Период отчета</th>
             <th scope="col">Категория</th>
             <th scope="col">Сумма</th>
             <th class="border-0" scope="col">Комментарий</th>
@@ -67,7 +69,8 @@
         <tbody>
         {% for operation in operations %}
           <tr>
-            <td scope="row">{{operation.operation_date|date:'F Y'}}</td>
+            <td scope="row">{{operation.operation_date|date:'d M Y'}}</td>
+            <td>{{operation.operation_period}}</td>
             <td>{{operation.category}}</td>
             <td>{{operation.amount|floatformat:"2g"}} &#8381;</td>
             <td class="border-0">{{operation.comment}}</td>
