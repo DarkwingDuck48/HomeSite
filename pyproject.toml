@@ -20,13 +20,17 @@ pylint = "^3.0.3"
 pylint-django = "^2.5.5"
 
 
+
+[tool.poetry.group.prod.dependencies]
+psycopg2 = "^2.9.9"
+
 [tool.pylint.MAIN]
 max-line-length= 100
 suggestion-mode = 'yes'
 load-plugins = [
     'pylint_django',
     ]
-django-settings-module='homesite.homesite.settings'
+django-settings-module='homesite.homesite.settings.development'
 
 [tool.pylint."MESSAGES CONTROL"]
 disable='''
