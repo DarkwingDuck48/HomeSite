@@ -13,31 +13,19 @@
         <div class="col-9"><h1> Dashboard</h1></div> 
     </div>
     <div class="row">
-        <div class="card m-2" style="width: 18rem;" >
-            <div class="card-body">
-                <h5 class="card-title">Заработано:</h5>
-                <h4>  <font class="text-success">{{get_all_category.get_by_category__sum| floatformat:"2g"}} &#8381;</font></h4>
-                <a href="#" class="btn btn-primary">Посмотреть</a>
-            </div>
-        </div>
-        <div class="card m-2" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">Потрачено:</h5>
-                <h4>  <font class="text-danger">{{spend_all_category.spend_by_category__sum| floatformat:"2g"}} &#8381;</font></h4>
-                <a href="#" class="btn btn-primary">Посмотреть</a>
-            </div>
-        </div>
+        <h4> Потрачено: <font class="text-danger">{{spend_all_category.spend_by_category__sum| floatformat:"2g"}} &#8381;</font></h4>
+        <h4> Заработано: <font class="text-success">{{get_all_category.get_by_category__sum| floatformat:"2g"}} &#8381;</font></h4>
     </div>
     </br>
     <div class="row">
         <div class="col-7">
-            <div class="row mb-2">
-                <div class="col-10"> 
+            <div class="row">
+                <div class="col-11"> 
                     <h4> Траты</h4>
                 </div>
                 <div class="col-1"><button type="button" class="btn btn-primary"> <i class="bi bi-plus-circle"></i></button></div>
             </div>
-            <div class="row w-auto">
+            <div class="row">
                 <table class="table table-bordered table-hover table-sm">
                     <tr>
                         <th> Категория </th>
@@ -56,8 +44,8 @@
                 </table>
             </div>
         </div>
-        <div class="col-7 w-50">
-            <div class="row mb-2">
+        <div class="col-5">
+            <div class="row">
                 <div class="col-11"> 
                     <h4> Поступления</h4>
                 </div>
@@ -79,5 +67,6 @@
                 </table>
             </div>
         </div>
+
 {% endblock content %}
 

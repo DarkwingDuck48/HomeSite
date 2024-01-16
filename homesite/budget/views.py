@@ -89,6 +89,7 @@ def delete_operation(request, operation_id):
 def all_operation_by_period(request, year, month):
     period = queries.get_period_by_year_month(year, month)
     operations = queries.get_operations_by_period(period).order_by("operation_date", "category")
+    sum_all_operations = queries.get_operations_by_period(period).aggregate(all_sum=Sum("amount"))
     if request.method == "POST":
         form = OperationForm(request.POST)
         if form.is_valid():
@@ -109,6 +110,7 @@ def all_operation_by_period(request, year, month):
             {
                 "form": form,
                 "operations": operations,
+                "all_sum": sum_all_operations["all_sum"],
             },
         )
     return render(
@@ -117,6 +119,7 @@ def all_operation_by_period(request, year, month):
         {
             "form": form,
             "operations": operations,
+            "all_sum": sum_all_operations["all_sum"],
         },
     )
 
