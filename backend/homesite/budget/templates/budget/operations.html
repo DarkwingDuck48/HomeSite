@@ -54,7 +54,7 @@
 
     </br>
 
-    <h1> All Operations </h1>
+    <h1 > All Operations </h1>
 
     <table class="table table-bordered table-hover table-sm">
         <thead>
@@ -72,18 +72,19 @@
             <td scope="row">{{operation.operation_date|date:'d M Y'}}</td>
             <td>{{operation.operation_period}}</td>
             <td>{{operation.category}}</td>
-            <td>{{operation.amount|floatformat:"2g"}} &#8381;</td>
+            <td>
+              {% if operation.category.cat_type == 'Dr' %}
+                <font color="green">
+              {% else %}
+                <font color="red">
+              {% endif %}
+                {{operation.amount|floatformat:"2g"}} &#8381; </font>
+            </td>
             <td class="border-0">{{operation.comment}}</td>
             <td class="border-0"><a href={% url "budget:delete_operation" operation.id %}><i class="bi bi-trash"></i></a>
           </tr>
         {% endfor %}
         </tbody>
-        <tfoot>
-          <th class="text-end"> Итого: </th>
-          <td class="border-0">  </td>
-          <td class="border-0"> {{all_sum|floatformat:"2g"}} &#8381; </td>
-          <td class="border-0"> </td>
-        </tfoot>
       </table>
 
 

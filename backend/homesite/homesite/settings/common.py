@@ -30,17 +30,24 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+
+HOMESITE_TECH_APPS = [
     'base.apps.BaseConfig',
-    'budget.apps.BudgetConfig',
     'users.apps.UsersConfig',
+]
+# List of Homesite applications for usage in project
+CUSTOM_APPS = [
+    'budget.apps.BudgetConfig',
+]
+
+INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
+] + HOMESITE_TECH_APPS + CUSTOM_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
