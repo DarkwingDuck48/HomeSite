@@ -16,3 +16,4 @@ homesite/db.sqlite3
 homesite/homesite/__pycache__/__init__.cpython-311.pyc
 homesite/*.env
 
+homesite/homesite/__pycache__/wsgi.cpython-311.pyc

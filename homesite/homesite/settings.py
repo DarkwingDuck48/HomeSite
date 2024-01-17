@@ -18,7 +18,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+if os.getenv("ENV") == "PROD":
+    load_dotenv(BASE_DIR / ".prod.env")
+else:
+    load_dotenv(BASE_DIR / ".dev.env")
+
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
