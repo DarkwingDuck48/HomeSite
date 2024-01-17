@@ -1,5 +1,6 @@
 db
 .vscode
+.venv
 *.env
 homesite/budget/__pycache__/
 homesite/homesite/__pycache__/
