@@ -67,7 +67,7 @@ MIDDLEWARE = [
 DATABASES = {
     'default': {
         'ENGINE':  f'{str(os.getenv("DATABASE_ENGINE"))}',
-        'NAME': BASE_DIR.parent /'db'/ f'{str(os.getenv("DATABASE_NAME"))}.sqlite3'
+        'NAME': BASE_DIR.parent /'db'/ f'{str(os.getenv("DATABASE_NAME"))}'
         }
     }
 
