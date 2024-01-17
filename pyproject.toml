@@ -6,7 +6,7 @@ authors = ["Maxim Britvin <maksbritvin@gmail.com>"]
 readme = "README.md"
 
 [tool.black]
-max-line-length = 100
+max-line-length = 120
 
 
 [tool.poetry.dependencies]
@@ -19,18 +19,16 @@ ipython = "^8.19.0"
 pylint = "^3.0.3"
 pylint-django = "^2.5.5"
 
-
-
 [tool.poetry.group.prod.dependencies]
 psycopg2 = "^2.9.9"
 
 [tool.pylint.MAIN]
-max-line-length= 100
+max-line-length= 120
 suggestion-mode = 'yes'
 load-plugins = [
     'pylint_django',
     ]
-django-settings-module='homesite.homesite.settings.development'
+django-settings-module='homesite.settings.development'
 
 [tool.pylint."MESSAGES CONTROL"]
 disable='''

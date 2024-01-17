@@ -29,19 +29,7 @@
 
             </br>
         {% block content %}
-            <h1> Installed Applications </h1>
-            <br>
-            <div class="cards">
-                {% for app_name,app_settings in custom_applications.items %}
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">{{app_name}}</h5>
-                            <p> {{app_settings.application_home_url}}</p>
-                            <a href="{{app_settings.application_home_url}}" class="btn btn-primary"> Go To Application</a>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
+        <h1> Start page for HomeSite </h1>
         {% endblock content %}
     </div>
      <!-- Option 1: Bootstrap Bundle with Popper -->
