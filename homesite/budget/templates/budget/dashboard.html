@@ -13,8 +13,20 @@
         <div class="col-9"><h1> Dashboard</h1></div> 
     </div>
     <div class="row">
-        <h4> Потрачено: <font class="text-danger">{{spend_all_category.spend_by_category__sum| floatformat:"2g"}} &#8381;</font></h4>
-        <h4> Заработано: <font class="text-success">{{get_all_category.get_by_category__sum| floatformat:"2g"}} &#8381;</font></h4>
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h4 class="card-title"> Потрачено:</h4>
+                <p class="card-text"><font class="text-danger">{{spend_all_category.spend_by_category__sum| floatformat:"2g"}} &#8381;</font></p>
+                <a href="#" class="btn btn-primary">Детали</a>
+            </div>
+        </div>
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h4 class="card-title"> Заработано:</h4>
+                <p class="card-text"><font class="text-success">{{get_all_category.get_by_category__sum| floatformat:"2g"}} &#8381;</font></p>
+                <a href="#" class="btn btn-primary">Детали</a>
+            </div>
+        </div>
     </div>
     </br>
     <div class="row">

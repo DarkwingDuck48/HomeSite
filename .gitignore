@@ -9,3 +9,4 @@ homesite/users/migrations/__pycache__/
 homesite/db.sqlite3
 .vscode
 .vscode/settings.json
+homesite/db.sqlite3
