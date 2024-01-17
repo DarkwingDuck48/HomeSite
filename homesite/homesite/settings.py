@@ -16,12 +16,13 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 from dotenv import load_dotenv
+import json
 import os
 
-if os.getenv("ENV") == "PROD":
-    load_dotenv(BASE_DIR / ".prod.env")
-else:
+if os.getenv("ENV") == "DEV":
     load_dotenv(BASE_DIR / ".dev.env")
+else:
+    load_dotenv(BASE_DIR / ".env")
 
 
 
@@ -65,10 +66,10 @@ MIDDLEWARE = [
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR.parent /'db'/ f'{str(os.getenv("DATABASE_NAME"))}.sqlite3',
+        'ENGINE':  f'{str(os.getenv("DATABASE_ENGINE"))}',
+        'NAME': BASE_DIR.parent /'db'/ f'{str(os.getenv("DATABASE_NAME"))}.sqlite3'
+        }
     }
-}
 
 ROOT_URLCONF = 'homesite.urls'
 
