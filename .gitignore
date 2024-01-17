@@ -5,8 +5,10 @@ homesite/homesite/__pycache__/settings.cpython-311.pyc
 homesite/base/__pycache__/
 homesite/base/migrations/__pycache__/
 homesite/users/__pycache__/
+homesite/homesite/settings/__pycache__/
 homesite/users/migrations/__pycache__/
 homesite/db.sqlite3
 .vscode
 .vscode/settings.json
-homesite/db.sqlite3
+
+homesite/homesite/__pycache__/__init__.cpython-311.pyc
