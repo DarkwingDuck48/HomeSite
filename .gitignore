@@ -1,4 +1,6 @@
 
+db
+*.env
 homesite/budget/__pycache__/
 homesite/budget/migrations/__pycache__/
 homesite/homesite/__pycache__/settings.cpython-311.pyc
