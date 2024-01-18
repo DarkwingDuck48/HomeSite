@@ -16,10 +16,12 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 from dotenv import load_dotenv
+
 import os
 
-if os.getenv("ENV") == "PROD":
-    load_dotenv(BASE_DIR / ".prod.env")
+if os.getenv("ENV") == "DEV":
+    load_dotenv(BASE_DIR / ".dev.env")
+>>>>>>> 08dbb68e8b7d7c86bdb84f62f05410af30c34579
 else:
     load_dotenv(BASE_DIR / ".env")
 
@@ -63,15 +65,14 @@ MIDDLEWARE = [
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+<<<<<<< HEAD
 
 #DATABASES = {
 #   'default': {
 #       'ENGINE': 'django.db.backends.postgresql_psycopg2',
 #       'NAME': os.environ.get('DATABASE_NAME', ''),
 #       'USER': os.environ.get('DATABASE_USER', '')
-#   }
 #}
-
 ROOT_URLCONF = 'homesite.urls'
 
 TEMPLATES = [
