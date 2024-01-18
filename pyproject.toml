@@ -13,6 +13,7 @@ max-line-length = 120
 python = "^3.11"
 django = "^5.0"
 python-dotenv = "^1.0.0"
+uvicorn = "^0.26.0"
 
 
 [tool.poetry.group.dev.dependencies]
