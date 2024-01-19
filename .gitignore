@@ -12,6 +12,7 @@ homesite/base/migrations/__pycache__/
 homesite/users/__pycache__/
 homesite/homesite/settings/__pycache__/
 homesite/users/migrations/__pycache__/
+homesite/budget/logic/__pycache__/
 homesite/db.sqlite3
 
 *_prod.py

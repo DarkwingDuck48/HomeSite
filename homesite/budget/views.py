@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.db.models import Sum, F, Value, CharField
 
 
+import budget.logic as app_logic
 import budget.queries as queries
 
 from .models import Category, Operation, Period
@@ -22,6 +23,7 @@ def home(request):
         "operations_debit": operations_debit,
         "spend_all_category": sum_by_credit,
         "get_all_category": sum_by_debit,
+        "rest_of_money": sum_by_debit["get_by_category__sum"] - sum_by_credit["spend_by_category__sum"],
         "today": datetime.now(),
         "period_today": period_today,
     }
@@ -93,12 +95,7 @@ def all_operation_by_period(request, year, month):
     if request.method == "POST":
         form = OperationForm(request.POST)
         if form.is_valid():
-            operation: Operation = form.save(commit=False)
-            operation.operation_period = Period.objects.filter(
-                start_date__lte=operation.operation_date,
-                end_date__gte=operation.operation_date,
-            ).first()
-            operation.save()
+            app_logic.save_operation(form)
             messages.success(request, "Added new Operation")
             sum_all_operations = Operation.objects.aggregate(all_sum=Sum("amount"))
             return redirect("budget:operations")
@@ -126,3 +123,8 @@ def all_operation_by_period(request, year, month):
 def all_operation(request):
     today = datetime.now()
     return all_operation_by_period(request, today.year, today.month)
+
+def add_operation_from_dashboard(request):
+    if request.method == "POST":
+        form = OperationForm()
+
