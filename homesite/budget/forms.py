@@ -27,6 +27,12 @@ class OperationForm(forms.ModelForm):
         self.fields["comment"].widget.attrs["class"] = "form-control"
 
 
+class OperationCreditOnlyForm(OperationForm):
+    category = forms.ModelChoiceField(queryset=Category.objects.all().filter(cat_type="Cr"))
+    
+class OperationDebitOnlyForm(OperationForm):
+    category = forms.ModelChoiceField(queryset=Category.objects.all().filter(cat_type="Dr"))
+
 class CategoryForm(forms.ModelForm):
     name = forms.CharField(
         label="Имя категории",

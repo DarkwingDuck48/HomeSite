@@ -8,7 +8,7 @@ import budget.logic as app_logic
 import budget.queries as queries
 
 from .models import Category, Operation, Period
-from .forms import CategoryForm, OperationForm
+from .forms import CategoryForm, OperationForm, OperationCreditOnlyForm, OperationDebitOnlyForm
 
 
 
@@ -124,7 +124,18 @@ def all_operation(request):
     today = datetime.now()
     return all_operation_by_period(request, today.year, today.month)
 
-def add_operation_from_dashboard(request):
+def add_operation_from_dashboard(request, category_type:str):
     if request.method == "POST":
-        form = OperationForm()
+        form = OperationForm(request.POST)
+        if form.is_valid():
+            app_logic.save_operation(form)
+            messages.success(request, "Added new Operation")
+            return redirect("budget:home")
+    else:
+        if category_type == 'Cr':
+            form = OperationCreditOnlyForm()
+        else:
+            form = OperationDebitOnlyForm()
+        return render(request, "budget/edit_operation.html", {"form": form})
+        
 
