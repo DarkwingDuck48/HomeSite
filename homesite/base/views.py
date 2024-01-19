@@ -12,8 +12,7 @@ def home(request):
                     if not app.homesite_tech_application: # type: ignore Custom Fields for application
                         custom_install_apps.update({app.name: app})
             except AttributeError:
-                print(app.name)
-            print(app)
+                continue
         context = {"custom_applications": custom_install_apps}
         return render(request, "base/index.html", context)
     return redirect('users:login_user')
