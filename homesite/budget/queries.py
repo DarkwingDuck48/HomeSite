@@ -1,6 +1,5 @@
 """ Запросы которые часто используем во время работы приложения """
 from datetime import date, datetime
-from unicodedata import category
 
 from django.shortcuts import get_object_or_404
 from django.db.models import Sum, F, Value
@@ -34,7 +33,7 @@ def get_period_by_year_month(year: int, month:int) -> Period:
 def get_operations_by_period_and_category_sum(period: Period):
     """Получаем операции, просуммированные по категориям и по нужному периоду"""
     operations_credit = (
-        get_operations_by_period(period).filter(category__cat_type="Cr")
+        get_operations_by_period(period).filter(operation_type="Cr")
         .values("category", "category__name", "category__limit", "category__id")
         .annotate(
             rest_by_category=F("category__limit") - Sum("amount"),
@@ -42,7 +41,7 @@ def get_operations_by_period_and_category_sum(period: Period):
         )
     )
     operations_debit = (
-         get_operations_by_period(period).filter(category__cat_type="Dr")
+         get_operations_by_period(period).filter(operation_type="Dr")
          .values("category","category__name", "category__limit", "category__id")
          .annotate(
              get_by_category=Sum("amount")
@@ -58,10 +57,3 @@ def get_operations_by_period(period: Period|None = None):
     return operations
 
 # Категории
-
-def get_credit_categories():
-    return Category.objects.all().filter(cat_type="Cr")
-    
-
-def get_debit_categories():
-    return Category.objects.all().filter(cat_type="Dr")

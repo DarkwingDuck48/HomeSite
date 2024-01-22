@@ -8,7 +8,7 @@ import budget.logic as app_logic
 import budget.queries as queries
 
 from .models import Category, Operation, Period
-from .forms import CategoryForm, OperationForm, OperationCreditOnlyForm, OperationDebitOnlyForm
+from .forms import CategoryForm, OperationForm
 
 
 
@@ -17,7 +17,7 @@ def home(request):
     period_today = queries.get_period()
     operations_credit, operations_debit = queries.get_operations_by_period_and_category_sum(period_today)
     sum_by_credit = operations_credit.aggregate(Sum("spend_by_category"))
-    sum_by_debit = operations_debit.aggregate(Sum("get_by_category"))
+    sum_by_debit = operations_debit.aggregate(Sum("get_by_category", default=0))
     context = {
         "operations_credit": operations_credit,
         "operations_debit": operations_debit,
@@ -124,7 +124,7 @@ def all_operation(request):
     today = datetime.now()
     return all_operation_by_period(request, today.year, today.month)
 
-def add_operation_from_dashboard(request, category_type:str):
+def add_operation_from_dashboard(request):
     if request.method == "POST":
         form = OperationForm(request.POST)
         if form.is_valid():
@@ -132,10 +132,7 @@ def add_operation_from_dashboard(request, category_type:str):
             messages.success(request, "Added new Operation")
             return redirect("budget:home")
     else:
-        if category_type == 'Cr':
-            form = OperationCreditOnlyForm()
-        else:
-            form = OperationDebitOnlyForm()
+        form = OperationForm()
         return render(request, "budget/edit_operation.html", {"form": form})
         
 

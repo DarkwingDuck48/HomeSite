@@ -62,6 +62,7 @@
             <th scope="col">Дата операции</th>
             <th scope="col">Период отчета</th>
             <th scope="col">Категория</th>
+            <th scope="col">Тип операции</th>
             <th scope="col">Сумма</th>
             <th class="border-0" scope="col">Комментарий</th>
           </tr>
@@ -72,6 +73,7 @@
             <td scope="row">{{operation.operation_date|date:'d M Y'}}</td>
             <td>{{operation.operation_period}}</td>
             <td>{{operation.category}}</td>
+            <td>{{operation.get_operation_type_display}}</td>
             <td>{{operation.amount|floatformat:"2g"}} &#8381;</td>
             <td class="border-0">{{operation.comment}}</td>
             <td class="border-0"><a href={% url "budget:delete_operation" operation.id %}><i class="bi bi-trash"></i></a>

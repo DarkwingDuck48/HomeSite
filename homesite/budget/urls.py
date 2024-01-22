@@ -8,8 +8,8 @@ urlpatterns = [
     path("", views.home, name="home"),
 
     path("operations", views.all_operation, name='operations'),
+    path("operations/add", views.add_operation_from_dashboard, name="add_operation_dashboard"),
     path("operations/<int:year>/<int:month>", views.all_operation_by_period, name="operations_by_period"),
-    path("operations/add/<str:category_type>", views.add_operation_from_dashboard, name="add_operation_dashboard"),
     path("categories", views.all_categories, name="categories"),
     
     path("periods", views.all_periods, name="periods"),

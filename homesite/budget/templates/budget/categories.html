@@ -43,7 +43,6 @@
             <tr>
                 <th scope="col"> Имя категории </th>
                 <th scope="col"> Лимит за период </th>
-                <th scope="col"> Тип категории </th>
             </tr>
         </thead>
         <tbody>
@@ -56,7 +55,6 @@
                             {{ category.limit }}
                         {% endif %} 
                         </td>
-                    <td>{{ category.cat_type }}</td>
                     <td class="border-0"><a href={% url "budget:delete_category" category.id %}><i class="bi bi-trash"></i></a>
                 </tr>
             {% endfor %}
