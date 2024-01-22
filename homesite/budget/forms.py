@@ -1,11 +1,12 @@
 from typing import Any
 from django import forms
 from .models import Operation, Category
+from budget.queries import get_all_category
 
 
 class OperationForm(forms.ModelForm):
     operation_date = forms.DateField()
-    category = forms.ModelChoiceField(queryset=Category.objects.all())
+    category = forms.ModelChoiceField(queryset=get_all_category())
     amount = forms.DecimalField()
     operation_type = forms.ChoiceField(label="Тип категории", choices=Operation.OPER_TYPE_CHOICES)
     comment = forms.CharField(max_length=100, required=False)

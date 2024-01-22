@@ -45,10 +45,10 @@ def all_categories(request):
             form.save()
             messages.success(request, "Добавлена новая категория")
             return redirect("budget:categories")
-        categories = Category.objects.all()
+        categories = queries.get_all_category()
         context = {"categories": categories, "form": form}
         return render(request, "budget/categories.html", context)
-    categories = Category.objects.all()
+    categories = queries.get_all_category()
     form = CategoryForm()
     context = {"categories": categories, "form": form}
     return render(request, "budget/categories.html", context)

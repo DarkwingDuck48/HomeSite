@@ -33,7 +33,7 @@ def get_period_by_year_month(year: int, month:int) -> Period:
 def get_operations_by_period_and_category_sum(period: Period):
     """Получаем операции, просуммированные по категориям и по нужному периоду"""
     operations_credit = (
-        get_operations_by_period(period).filter(operation_type="Cr")
+        get_operations_by_period(period).filter(operation_type="Cr").order_by("category__name")
         .values("category", "category__name", "category__limit", "category__id")
         .annotate(
             rest_by_category=F("category__limit") - Sum("amount"),
@@ -41,7 +41,7 @@ def get_operations_by_period_and_category_sum(period: Period):
         )
     )
     operations_debit = (
-         get_operations_by_period(period).filter(operation_type="Dr")
+         get_operations_by_period(period).filter(operation_type="Dr").order_by("category__name")
          .values("category","category__name", "category__limit", "category__id")
          .annotate(
              get_by_category=Sum("amount")
@@ -57,3 +57,6 @@ def get_operations_by_period(period: Period|None = None):
     return operations
 
 # Категории
+
+def get_all_category():
+    return Category.objects.all().order_by("name")
