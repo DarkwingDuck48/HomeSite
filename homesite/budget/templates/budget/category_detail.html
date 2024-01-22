@@ -12,12 +12,14 @@
     <table class="table table-bordered table-hover table-sm">
         <tr>
             <th> Дата Операции </th>
+            <th> Тип Операции </th>
             <th> Сумма </th>
             <th> Комментарий </th>
         </tr>
     {% for operation in operations %}
         <tr>
             <td>{{ operation.operation_date|date:'d F Y'}} </td>
+            <td>{{ operation.get_operation_type_display}}</td>
             <td>{{ operation.amount}} </td>
             <td>{{ operation.comment}} </td>
             <td class="border-0"><a href={% url "budget:delete_operation" operation.id %}><i class="bi bi-trash"></i></a>
