@@ -84,11 +84,12 @@ def detail_category(request, category_id):
 # Operations
 
 def edit_operation(request, operation_id):
+    # ! TODO: MAKE REDIRECT WORK !!!
     edit_operation = get_object_or_404(Operation, pk=operation_id)
     form = OperationForm(request.POST or None, instance=edit_operation)
     if form.is_valid():
         app_logic.save_operation(form)
-        return redirect(request.META.get("HTTP_REFERER"))
+        return redirect("budget:operations")
     return render(request, "budget/edit_operation.html", 
                   context={"form":form, "edit_operation": edit_operation})
         
