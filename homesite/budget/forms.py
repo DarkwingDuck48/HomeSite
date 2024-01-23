@@ -32,20 +32,23 @@ class OperationForm(forms.ModelForm):
 
     class Meta:
         model = Operation
-        fields = ("operation_date", "category", "operation_type", "amount", "comment")
+        fields = ("operation_date", "category", "bank_account", "operation_type", "amount", "comment")
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self.fields["operation_date"].widget = forms.widgets.DateInput(
+            format = ('%Y-%m-%d'),
             attrs={
                 "type": "date",
                 "placeholder": "yyyy-mm-dd (DOB)",
                 "class": "form-control",
+                "autocomplete": "off"
             }
         )
         self.fields["category"].widget.attrs["class"] = "form-control"
         self.fields["amount"].widget.attrs["class"] = "form-control"
-        self.fields["operation_type"].widget.attrs["class"] = "form-select form-select-sm"
+        self.fields["bank_account"].widget.attrs["class"] = "form-control form-select"
+        self.fields["operation_type"].widget.attrs["class"] = "form-select form-select"
         self.fields["comment"].widget.attrs["class"] = "form-control"
 
 class CategoryForm(forms.ModelForm):

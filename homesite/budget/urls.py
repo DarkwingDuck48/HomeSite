@@ -9,6 +9,7 @@ urlpatterns = [
 
     path("operations", views.all_operation, name='operations'),
     path("operations/add", views.add_operation_from_dashboard, name="add_operation_dashboard"),
+    path("operations/<int:operation_id>", views.edit_operation, name="edit_operation"),
     path("operations/<int:year>/<int:month>", views.all_operation_by_period, name="operations_by_period"),
     path("categories", views.all_categories, name="categories"),
     

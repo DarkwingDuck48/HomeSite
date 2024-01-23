@@ -10,7 +10,7 @@
 
 
 {% block content %}
-<form method="post" action="{% url 'budget:add_operation_dashboard'%}">
+<form method="post" action="{% url 'budget:edit_operation' edit_operation.id %}">
     {% csrf_token %}
     {% if form.errors %}
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
