@@ -7,8 +7,8 @@ from django.db.models import Sum, F, Value, CharField
 import budget.logic as app_logic
 import budget.queries as queries
 
-from .models import Category, Operation, Period
-from .forms import CategoryForm, OperationForm
+from .models import Category, Operation, Period, BankAccount
+from .forms import CategoryForm, OperationForm, BankAccountForm
 
 
 
@@ -29,11 +29,9 @@ def home(request):
     }
     return render(request, "budget/dashboard.html", context)
 
-
 def all_periods(request):
     context = {}
     return render(request, "budget/periods_settings.html", context)
-
 
 def specify_period(request, period_id):
     return render(request, "budget/dashboard.html", context)
@@ -53,7 +51,6 @@ def all_categories(request):
     context = {"categories": categories, "form": form}
     return render(request, "budget/categories.html", context)
 
-
 def delete_category(request, category_id):
     category_to_delete = get_object_or_404(Category, pk=category_id)
     category_to_delete.delete()
@@ -69,7 +66,6 @@ def detail_category_by_period(request, category_id, year, month):
         {"category": category, "operations": operations, "period": period},
     )
 
-
 def detail_category(request, category_id):
     category = get_object_or_404(Category, pk=category_id)
     operations = (
@@ -81,12 +77,10 @@ def detail_category(request, category_id):
         {"category": category, "operations": operations, "period": "Все периоды"},
     )
 
-
 def delete_operation(request, operation_id):
     operation_to_delete = get_object_or_404(Operation, pk=operation_id)
     operation_to_delete.delete()
     return redirect(request.META.get("HTTP_REFERER"))
-
 
 def all_operation_by_period(request, year, month):
     period = queries.get_period_by_year_month(year, month)
@@ -136,3 +130,18 @@ def add_operation_from_dashboard(request):
         return render(request, "budget/edit_operation.html", {"form": form})
         
 
+def all_bank_accounts(request):
+    accounts = queries.get_all_bank_accounts()
+    if request.method == "POST":
+        form = BankAccountForm(request.POST)
+        if form.is_valid():
+            app_logic.save_bank_account(form, request.user)
+            messages.success(request, "Added new Bank Account")
+            return redirect("budget:bank_accounts")
+    else:
+        form = BankAccountForm()
+        return render(request, "budget/bank_account.html", {"form": form, "accounts": accounts})
+
+def delete_account(request, account_id):
+    get_object_or_404(BankAccount, pk=account_id).delete()
+    return redirect(request.META.get("HTTP_REFERER"))

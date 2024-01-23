@@ -1,0 +1,66 @@
+{% extends "base/index.html" %}
+
+{% block title %}
+    <title> Budget - Categories</title>
+{% endblock title %}
+
+{% block navbar %}
+    {% include "budget/navbar.html" %}
+{% endblock navbar%}
+
+{% block content %}
+    
+    <h1> Добавление категории</h1>
+    </br>
+    <form method="post" action="">
+        {% csrf_token %}
+        {% if form.errors %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            Ошибки на форме
+            {% for field in form %}
+                {% if field.errors %}
+                    {{ field.errors }}
+                {% endif %}
+            {% endfor %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
+        <div class="row">
+            {% for field in form %}
+                <div class="col-3"> 
+                    {{ field }}
+                </div>
+            {% endfor %}
+        </div>
+        </br>
+        <button type="submit" class="btn btn btn-outline-success btn-sm">Добавить банковский счет</button>
+    </form>
+    </br>
+    <h1> Список банковских счетов </h1>
+
+    <table class="table table-bordered table-hover table-sm">
+        <thead>
+            <tr>
+                <th scope="col"> Имя счета </th>
+                <th scope="col"> Банк </th>
+                <th scope="col"> Владелец </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for account in accounts %}
+                <tr>
+                    <td scope="row"> {{account.name}}</td>
+                    <td scope="row"> {{account.bank}}</td>
+                    <td scope="row"> {{account.owned_by}}</td>
+                    <td class="border-0"><a href={% url "budget:delete_account" account.id %}><i class="bi bi-trash"></i></a>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    </br>
+
+   
+
+{% endblock content %}
+

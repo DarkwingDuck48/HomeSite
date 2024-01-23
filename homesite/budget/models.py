@@ -1,6 +1,16 @@
+from enum import unique
 from django.db import models
+from django.contrib.auth.models import User
 
 
+class BankAccount(models.Model):
+    """Реализует функционал учета по банковским картам"""
+    name = models.CharField(max_length=20, unique=True)
+    bank = models.CharField(max_length=20, unique=False)
+    owned_by = models.ForeignKey(User, on_delete=models.PROTECT)
+    
+    def __str__(self) -> str:
+        return f"{self.bank}: {self.name}"
 
 class Period(models.Model):
     """Periods Class"""
@@ -49,6 +59,7 @@ class Operation(models.Model):
 
     operation_date = models.DateField(auto_now=False, auto_now_add=False)
     operation_period = models.ForeignKey(Period, on_delete=models.PROTECT, null=True)
+    bank_account = models.ForeignKey(BankAccount, on_delete=models.SET_NULL, null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     operation_type = models.CharField(max_length=2, choices=OPER_TYPE_CHOICES, default=CREDIT)
     detalisation = models.JSONField(null=True, blank=True)

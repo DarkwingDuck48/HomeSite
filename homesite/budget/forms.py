@@ -1,12 +1,31 @@
+from dataclasses import fields
 from typing import Any
 from django import forms
-from .models import Operation, Category
-from budget.queries import get_all_category
+from .models import Operation, Category, BankAccount
+from budget.queries import get_all_category, get_all_bank_accounts
+
+
+class BankAccountForm(forms.ModelForm):
+    
+    name = forms.CharField(label="Имя счета")
+    bank = forms.CharField(label="Банк")
+    
+    class Meta:
+        model = BankAccount
+        fields = ("name", "bank")
+    
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+        self.fields["name"].widget.attrs["class"] = "form-control form-control-sm"
+        self.fields["bank"].widget.attrs["class"] = "form-control form-control-sm"
+        self.fields["name"].widget.attrs["placeholder"] = "Имя счета"
+        self.fields["bank"].widget.attrs["placeholder"] = "Имя банка"
 
 
 class OperationForm(forms.ModelForm):
     operation_date = forms.DateField()
     category = forms.ModelChoiceField(queryset=get_all_category())
+    bank_account = forms.ModelChoiceField(queryset=get_all_bank_accounts())
     amount = forms.DecimalField()
     operation_type = forms.ChoiceField(label="Тип категории", choices=Operation.OPER_TYPE_CHOICES)
     comment = forms.CharField(max_length=100, required=False)

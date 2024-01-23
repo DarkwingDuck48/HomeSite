@@ -18,4 +18,7 @@ urlpatterns = [
 
     path("delete_category/<int:category_id>", views.delete_category, name="delete_category"),
     path("delete_operation/<int:operation_id>", views.delete_operation, name="delete_operation"),
+    path("delete_account/<int:account_id>", views.delete_account, name="delete_account"),
+    
+    path("bank_accounts", views.all_bank_accounts, name="bank_accounts"),
 ]

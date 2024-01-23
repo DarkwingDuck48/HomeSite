@@ -4,7 +4,7 @@ from datetime import date, datetime
 from django.shortcuts import get_object_or_404
 from django.db.models import Sum, F, Value
 
-from .models import Category, Operation, Period
+from .models import Category, Operation, Period, BankAccount
 
 
 # Периоды
@@ -60,3 +60,9 @@ def get_operations_by_period(period: Period|None = None):
 
 def get_all_category():
     return Category.objects.all().order_by("name")
+
+
+# Банковские счета
+
+def get_all_bank_accounts():
+    return BankAccount.objects.all().order_by("bank")
