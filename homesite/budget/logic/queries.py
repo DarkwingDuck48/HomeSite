@@ -4,7 +4,7 @@ from datetime import date, datetime
 from django.shortcuts import get_object_or_404
 from django.db.models import Sum, F, Value
 
-from .models import Category, Operation, Period, BankAccount
+from ..models import Category, Operation, Period, BankAccount
 
 
 # Периоды

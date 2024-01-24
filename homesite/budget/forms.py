@@ -1,8 +1,8 @@
-from dataclasses import fields
+
 from typing import Any
 from django import forms
 from .models import Operation, Category, BankAccount
-from budget.queries import get_all_category, get_all_bank_accounts
+from budget.logic.queries import get_all_category, get_all_bank_accounts
 
 
 class BankAccountForm(forms.ModelForm):

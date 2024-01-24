@@ -1,11 +1,11 @@
 from datetime import datetime
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
-from django.db.models import Sum, F, Value, CharField
+from django.db.models import Sum
 
 
 import budget.logic as app_logic
-import budget.queries as queries
+import budget.logic.queries as queries
 
 from .models import Category, Operation, Period, BankAccount
 from .forms import CategoryForm, OperationForm, BankAccountForm
@@ -13,20 +13,9 @@ from .forms import CategoryForm, OperationForm, BankAccountForm
 
 
 def home(request):
+
     """Построение начального Dashboard по текущему состоянию бюджета."""
-    period_today = queries.get_period()
-    operations_credit, operations_debit = queries.get_operations_by_period_and_category_sum(period_today)
-    sum_by_credit = operations_credit.aggregate(Sum("spend_by_category", default=0))
-    sum_by_debit = operations_debit.aggregate(Sum("get_by_category", default=0))
-    context = {
-        "operations_credit": operations_credit,
-        "operations_debit": operations_debit,
-        "spend_all_category": sum_by_credit,
-        "get_all_category": sum_by_debit,
-        "rest_of_money": sum_by_debit["get_by_category__sum"] - sum_by_credit["spend_by_category__sum"],
-        "today": datetime.now(),
-        "period_today": period_today,
-    }
+    context = app_logic.homepage_data()
     return render(request, "budget/dashboard.html", context)
 
 # Periods
@@ -42,22 +31,20 @@ def specify_period(request, period_id):
 
 def all_categories(request):
     if request.method == "POST":
-        form = CategoryForm(request.POST)
-        if form.is_valid():
-            form.save()
+        errors = app_logic.create_category(CategoryForm(request.POST))
+        if errors:
+            for err in errors:
+                messages.error(request, f"{err}")
+        else:
             messages.success(request, "Добавлена новая категория")
-            return redirect("budget:categories")
-        categories = queries.get_all_category()
-        context = {"categories": categories, "form": form}
-        return render(request, "budget/categories.html", context)
+        return redirect("budget:categories")
     categories = queries.get_all_category()
     form = CategoryForm()
     context = {"categories": categories, "form": form}
     return render(request, "budget/categories.html", context)
 
 def delete_category(request, category_id):
-    category_to_delete = get_object_or_404(Category, pk=category_id)
-    category_to_delete.delete()
+    app_logic.delete_category(category_id)
     return redirect("budget:categories")
 
 def detail_category_by_period(request, category_id, year, month):
