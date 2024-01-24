@@ -16,7 +16,7 @@ def home(request):
     """Построение начального Dashboard по текущему состоянию бюджета."""
     period_today = queries.get_period()
     operations_credit, operations_debit = queries.get_operations_by_period_and_category_sum(period_today)
-    sum_by_credit = operations_credit.aggregate(Sum("spend_by_category"))
+    sum_by_credit = operations_credit.aggregate(Sum("spend_by_category", default=0))
     sum_by_debit = operations_debit.aggregate(Sum("get_by_category", default=0))
     context = {
         "operations_credit": operations_credit,
